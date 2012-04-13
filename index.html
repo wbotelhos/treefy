@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="-1">
+		<meta name="keywords" content="jquery,treefy,tree,arvore,list,unordered,collapse,expand" />
+		<meta name="description" content="jQuery Treefy - A Tree Plugin" />
+
+		<title>jQuery Treefy - A Tree Plugin</title>
+
+		<!-- This CSS does not belong to the plugin. -->
+		<link type="text/css" rel="stylesheet" href="doc/css/stylesheet.css"/>
+
+		<link type="text/css" rel="stylesheet" href="css/jquery.treefy.css"/>
+
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.treefy.min.js"></script>
+
+		<script type="text/javascript">
+			// This code does not belong to the plugin. See the example code at the bottom of this page.
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-194992347-14']);
+			_gaq.push(['_trackPageview']);
+			
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	</head>
+	<body>
+		<div id="header">
+			<div id="title">
+				<a href="http://wbotelhos.com/treefy">jQuery Treefy - A Tree Plugin</a>
+				<span id="version">(current version: 0.1.0)</span>
+			</div>
+
+			<div id="menu">
+				<a href="http://github.com/downloads/wbotelhos/treefy/jquery.treefy-0.1.0.zip" target="_blank">Download</a> |
+				<a href="http://github.com/wbotelhos/treefy" target="_blank">Github</a> |
+				<a href="http://www.wbotelhos.com/treefy/changelog.markdown" target="_blank">Change Log</a> |
+				<a href="http://www.wbotelhos.com/treefy/README.markdown" target="_blank">Readme</a> |
+				<a href="http://www.wbotelhos.com/2012/04/11/jquery-treefy-a-tree-plugin" target="_blank">Article</a> |
+				<a href="http://www.opensource.org/licenses/mit-license.php" target="_blank">License</a> |
+				<a href="http://www.wbotelhos.com/2012/04/11/jquery-treefy-a-tree-plugin#comments" target="_blank" style="color: #2C8CBD;">Doubt</a> |
+				<a href="http://www.wbotelhos.com/lab" target="_blank" style="color: #000;">yLab</a>
+			</div>
+
+			<a id="coffee" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&amp;business=X8HEP2878NDEG&amp;item_name=jQuery%20Treefy" target="_blank">buy me a coffee</a>
+
+			<div class="description">jQuery <strong>Treefy</strong> jQuery Treefy is a plugin that transforms an unordered list into an expandable and collapsable tree.</div>
+		</div>
+
+		<div id="content">
+			<div class="session-first">Explanation:</div>
+
+			<div id="tree"></div>
+
+			<div class="session">JSON:</div>
+
+			<div class="source">
+				{<br />
+				&#160;&#160;"tree": [<br />
+				&#160;&#160;&#160;&#160;{ "text": "Ruby", "icon": "star", <span class="highlight">"checkbox": { "id": "ruby", "name": "languages[]", "value": "1", "class": "special" }</span> },<br />
+				&#160;&#160;&#160;&#160;{ "text": "Java", "link": "http://wbotelhos.com.br", "target": "_blank", <span class="highlight">"checkbox": { "id": "java", "name": "language[]", "value": "2" }</span> },<br />
+				&#160;&#160;&#160;&#160;{ "text": "NoSQL", "state": "opened", <span class="highlight">"checkbox": { "id": "nosql", "name": "language[]", "value": "3" }</span>, <b>"children"</b>: [<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ "text": "Neo4j", <span class="highlight">"checkbox": { "id": "neo4j", "name": "language[]", "value": "4" }</span> },<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ "text": "Document", <span class="highlight">"checkbox": { "id": "document", "name": "language[]", "value": "5" }</span>, <b>"children"</b>: [<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ "text": "MongoDB", <span class="highlight">"checkbox": { "id": "mongodb", "name": "language[]", "value": "6", "checked": true }</span> },<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ "text": "CouchDB", <span class="highlight">"checkbox": { "id": "couchdb", "name": "language[]", "value": "7" }</span> }<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;]<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;},<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ "text": "Relational", <span class="highlight">"checkbox": { "id": "relational", "name": "language[]", "value": "8", "disabled": true }</span> }<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;]<br />
+				&#160;&#160;&#160;&#160;}<br />
+				&#160;&#160;]<br />
+				}<br /><br />
+			</div>
+
+			<div class="comment">
+				+ tree: the root of the JSON;<br />
+				+ text: the text of each item of the tree;<br />
+				+ icon: the icon putted on the left side of the text;<br />
+				- link: the url of the text;<br />
+				&#160;&#160;&#160;+ target: target of the link;<br />
+				&#160;&#160;&#160;+ when this options is present the text is converted to a link.<br />
+				- checkbox:<br />
+				&#160;&#160;&#160;+ id: the field's ID;<br />
+				&#160;&#160;&#160;+ name: the field's name;<br />
+				&#160;&#160;&#160;+ value: the field's value;<br />
+				&#160;&#160;&#160;+ class: the field's class.<br />
+				&#160;&#160;&#160;- checked: decide if the checkbox will be checked or not:<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;+ you can use: checked="checked", checked=true or just checked="".<br />
+				&#160;&#160;&#160;- disabled: decide if the checkbox will be disabled or not:<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;+ you can use: disabled="disabled", disabled=true or just disabled="".<br />
+				- children: a node of the tree with other items;<br />
+				&#160;&#160;&#160;+ state: the state of the folder: opened or closed;<br />
+				&#160;&#160;&#160;+ when the children is present it treat as a folder.<br />
+			</div>
+
+			<div class="session">Script:</div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;&#160;&#160;checkbox&#160;: true,<br />
+				&#160;&#160;&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;: 'http://mockr.me/treefy'<br />
+				});
+			</div>
+
+			<div class="session">HTML:</div>
+
+			<div class="source">
+				&lt;div id="tree"&gt;&lt;/div&gt;
+			</div>
+
+			<div class="session">Options:</div>
+
+			<div class="session-option">always: <span>undefined / using undefined jQuery will consider it as: undefined</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">always : function(jqXHR, textStatus) {<br />
+				&#160;&#160;&#160;&#160;alert('Successfully completed!');<br />
+				&#160;&#160;},</span><br />
+				&#160;&#160;url&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Function executed when the tree finish the request.</div>
+
+			<div class="comment-personal">Explanation: you can stop a loading message when request finish.</div>
+
+			<hr />
+
+			<div class="session-option">checkbox: <span>false</span></div>
+
+			<img src="doc/img/checkbox.png" alt="checkbox" height="77" width="136" class="session-image" />
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">checkbox : true</span>,<br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Enables the checkbox on the side of each element.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- You put a checkbox on the side of each elment of the tree to be possible check it;<br />
+				- Different from current plugins, Treefy generates real checkboxes, not a div with an image of the checkbox;<br />
+				- You can customize all part of checkbox using the 'checkbox' element of JSON, or build it manually.
+			</div>
+
+			<hr />
+
+			<div class="session-option">checkDown: <span>true</span></div>
+
+			<div id="checkDown" class="example"></div>
+
+			<img src="doc/img/checkDown.png" alt="checkDown" height="152" width="179" class="session-image" />
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;checkbox&#160; : true,<br />
+				&#160;&#160;<span class="highlight">checkDown : false</span><br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy',<br /> 
+				});
+			</div>
+
+			<div class="comment">Check all children when a folder is checked.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- The most common thing is check a folder to check all children, then let it on;<br />
+				- If you wants just check the folder, but not the children just turn it off;<br />
+				- This cover just the check option, not the uncheck.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">checkedClass: <span>'treefy-checked'</span></div>
+
+			<img src="doc/img/checkedClass.png" alt="checkedClass" height="29" width="116" class="session-image" />
+
+			<div class="source">
+				<span class="highlight">.treefy-on { background: url('checked.png'); }</span>
+			</div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy',<br /> 
+				&#160;&#160;<span class="highlight">checkedClass : 'on'</span><br />
+				});
+			</div>
+
+			<div class="comment">Class with background used as icon on checked values.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- You can change the background icon with one you like;<br />
+				- The prefix 'treefy-' is preppended automatically to avoid conflicts.
+			</div>
+
+			<hr />
+
+			<div class="session-option">checkUp: <span>true</span></div>
+
+			<div id="checkUp" class="example"></div>
+
+			<img src="doc/img/checkUp.png" alt="checkUp" height="97" width="177" class="session-image" />
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;checkbox : true,<br />
+				&#160;&#160;<span class="highlight">checkUp&#160; : false,</span><br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Check all parents folder.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- If a checkbox is a child, then if it is checked you parent is partial checked or full checked;<br />
+				- If the parent has just one child, the parent is full checked, otherwise partial;<br />
+				- You can disable this option to avoid check the parents if it represents some value and you don't want send it.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">data: <span>undefined</span></div>
+
+			<div id="data" class="example"></div>
+
+			<div class="source">
+				<span class="highlight">var json = '{ "tree": [ { "text": "Java" }, { "text": "Ruby" } ] }'</span>
+			</div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;url&#160; : '/treefy',<br /> 
+				&#160;&#160;<span class="highlight">data : json</span><br />
+				});
+			</div>
+
+			<div class="comment">A JSON data passed to Treefy manually.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- You can build your own JSON and pass it to the Treefy;<br />
+				- Maybe you wants manipulate the JSON that cames from an ajax request and then pass it.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">dataType: <span>'json' / using undefined jQuery will consider it as: Intelligent Guess (xml, json, script, or html)</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160; : '/treefy',<br /> 
+				&#160;&#160;<span class="highlight">dataType : 'xml'</span><br />
+				});
+			</div>
+
+			<div class="comment">The data type of the ajax request.</div>
+
+			<div class="comment-personal">Explanation: you can receive the data as XML. * For now just JSON is supported!</div>
+
+			<hr />
+
+			<div class="session-option">disabledCheckedClass: <span>'treefy-disabled-checked'</span></div>
+
+			<img src="doc/img/disabledCheckedClass.png" alt="disabledCheckedClass" height="32" width="132" class="session-image" />
+
+			<div class="source">
+				<span class="highlight">.treefy-checked-off { background: url('checked-off.png'); }</span>
+			</div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">disabledCheckedClass : 'checked-off',</span><br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Class with background used as icon on checkbox is checked but disabled.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- You can have a checkbox checked, but it can be disabled, then choose an icon for it.
+			</div>
+
+			<hr />
+
+			<div class="session-option">disabledClass: <span>'treefy-disabled'</span></div>
+
+			<img src="doc/img/disabledClass.png" alt="disabledClass" height="48" width="138" class="session-image" />
+
+			<div class="source">
+				<span class="highlight">.treefy-unchecked-off { background: url('unchecked-off.png'); }</span>
+			</div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">disabledClass : 'unchecked-off',</span><br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Class with background used as icon on checkbox is disabled.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- You can have a checkbox unchecked and disabled, then choose an icon for it;<br />
+				- This is the read-only state.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">disableFolder: <span>true</span></div>
+
+			<img src="doc/img/disableFolder.png" alt="disableFolder" height="71" width="740" class="session-image" />
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">disableFolder : false,</span><br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Enables sending the value of items that are folders.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- By default the value setted on folder item is not submited, because it is disabled internally;<br />
+				- Its happen because normally, the folder is just a grouper of other items;<br />
+				- If your folder represents a value for your logic, then disable this option.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">done: <span>undefined / using undefined jQuery will consider it as: undefined</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">done : function(data, textStatus, jqXHR) {<br />
+				&#160;&#160;&#160;&#160;alert('Successfully loaded!');<br />
+				&#160;&#160;},</span><br />
+				&#160;&#160;url&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Function executed when the tree loads successfully.</div>
+
+			<div class="comment-personal">Explanation: you can get the data returned from request and display a success message.</div>
+
+			<hr />
+
+			<div class="session-option">fail: <span>undefined / using undefined jQuery will consider it as: undefined</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">fail : function(jqXHR, textStatus, errorThrown) {<br />
+				&#160;&#160;&#160;&#160;alert('Some thing is wrong!');<br />
+				&#160;&#160;},</span><br />
+				&#160;&#160;url&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Function executed when occurs an error.</div>
+
+			<div class="comment-personal">Explanation: you can recover an error and display it, or take a workaround decision.</div>
+
+			<hr />
+
+			<div class="session-option">icon: <span>true</span></div>
+
+			<img src="doc/img/icon.png" alt="icon" height="31" width="104" class="session-image" />
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">icon : false</span><br />
+				&#160;&#160;url&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Enables the display of icons next to each item.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- All item of the tree can has an icon to a better explanation about the item;<br />
+				- You can disable it to take of the item;<br />
+				- This option just defined if the icon will be presented, not the name of icon.
+			</div>
+
+			<hr />
+
+			<div class="session-option">jsonp: <span>undefined / using undefined jQuery will consider it as: no effect.</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">jsonp : true</span>,<br />
+				&#160;&#160;url&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Override the callback function name in a jsonp request.</div>
+
+			<div class="comment-personal">Explanation: you can override the callback name. jQuery 1.5+ you can set it to false to avoid append of "?callback" or "=?" and set the name using jsonpCallback option.</div>
+
+			<hr />
+
+			<div class="session-option">jsonpCallback: <span>undefined / using undefined jQuery will consider it as: random value</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">jsonpCallback : 'MyCallbackName'</span>,<br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Specify the callback function name for a JSONP request.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- You can change the name of callback manually;<br />
+				- Using static name you can have a better browser caching;<br />
+				- But it is preferable to let jQuery generate a unique name as it'll make it easier to manage the requests and provide callbacks and error handling
+			</div>
+
+			<hr />
+
+			<div class="session-option">childrenName: <span>'children'</span></div>
+
+			<div class="source">
+				{ "tree": [ { "text": "NoSQL", "state": "opened", <span class="highlight">"node"</span>: [ { "text": "MongoDB" } ] } ] }
+			</div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">childrenName : 'node'</span>,<br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Name of the node that represents the children.</div>
+
+			<div class="comment-personal">Explanation: if you prefer to change the name because of an API parse os something.</div>
+
+			<hr />
+
+			<div class="session-option">params: <span>{}</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">params : { 'language': 'pt_BR', 'status': 1 }</span>,<br />
+				&#160;&#160;url&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="source">
+				...&amp;language=pt_BR&amp;status=1
+			</div>
+
+			<div class="comment">A hash of parameters to be added to the query string.</div>
+
+			<div class="comment-personal">Explanation: you can pass extra parameter to filter your search.</div>
+
+			<hr />
+
+			<div class="session-option">partial: <span>true</span></div>
+
+			<div id="partial" class="example"></div>
+
+			<img src="doc/img/partial.png" alt="partial" height="156" width="185" class="session-image" />
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">partial : false</span>,<br />
+				&#160;&#160;url&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Enables the partial icon of the folder.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- If you have more then one children and check just one, then the folder should be with partial icon;<br />
+				- When you disable this option the folder always will be full checked instead partial.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">partialClass: <span>'treefy-partial'</span></div>
+
+			<img src="doc/img/partialClass.png" alt="partialClass" height="157" width="182" class="session-image" />
+
+			<div class="source">
+				<span class="highlight">.treefy-half { background: url('half.png'); }</span>
+			</div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">partialClass : 'half'</span>,<br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Class with background used as icon on checkbox is disabled.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- You can have a checkbox unchecked and disabled, then choose an icon for it;<br />
+				- This is the read-only state.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">type: <span>'get'</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">type : 'post'</span>,<br />
+				&#160;&#160;url&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Type of the HTTP request.</div>
+
+			<div class="comment-personal">Explanation: you can change the verb to get, post, delete or put, but it is a search, then it is recommended that you use the default get.</div>
+
+			<hr />
+
+			<div class="session-option">uncheckDown: <span>true</span></div>
+
+			<div id="uncheckDown" class="example"></div>
+
+			<img src="doc/img/uncheckDown.png" alt="uncheckDown" height="151" width="177" class="session-image" />
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;checkbox&#160; : true,<br />
+				&#160;&#160;<span class="highlight">uncheckDown : false</span><br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy',<br /> 
+				});
+			</div>
+
+			<div class="comment">Uncheck all children when a folder is unchecked.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- When you uncheck a folder, normally you want uncheck all children;<br />
+				- Maybe you want to foce the user uncheck one by one, but it is not good at all.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">uncheckUp: <span>true</span></div>
+
+			<div id="uncheckUp" class="example"></div>
+
+			<img src="doc/img/uncheckUp.png" alt="uncheckUp" height="149" width="181" class="session-image" />
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;checkbox&#160; : true,<br />
+				&#160;&#160;<span class="highlight">uncheckUp : false</span><br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy',<br /> 
+				});
+			</div>
+
+			<div class="comment">Uncheck all parents folder when a child is check.</div>
+
+			<div class="comment-personal">
+				Explanation:<br />
+				- If a checkbox is the last checked child, then if it is unchecked the parent is unchecked too;<br />
+				- If the parent represents a value by it self, maybe you don't wan unchecked it too.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">uncheckedClass: <span>'treefy-unchecked'</span></div>
+
+			<img src="doc/img/uncheckedClass.png" alt="uncheckedClass" height="45" width="126" class="session-image" />
+
+			<div class="source">
+				<span class="highlight">.treefy-normal { background: url('normal.png'); }</span>
+			</div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;<span class="highlight">uncheckedClass : 'normal',</span><br />
+				&#160;&#160;url&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; : '/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">Class with background used as icon on checkbox unchecked.</div>
+
+			<div class="comment-personal">Explanation: the first state of checkbox is unchecked, and it is the image of it.<br />
+			</div>
+
+			<hr />
+
+			<div class="session-option">url: <span>undefined</span></div>
+
+			<div class="source">
+				$('#tree').treefy({<br />
+				&#160;&#160;url: '/user/treefy'<br /> 
+				});
+			</div>
+
+			<div class="comment">URL to request the data.</div>
+
+			<div class="comment-personal">Explanation: you can change the URL to receive your data. Don't forget to prepend the context of your application.</div>
+
+			<div id="manual-demo" class="session">Manual build:</div>
+
+			<div id="manual">
+				<ul class="treefy">
+					<li>
+						<span>
+							<span class="treefy-empty"></span>
+							<label for="ruby" class="treefy-unchecked"></label>
+							<input id="ruby" type="checkbox" />
+							<span class="treefy-star"></span>
+							<a href="javascript:void(0);">Ruby</a>
+						</span>
+					</li>
+					<li>
+						<span class="treefy-closed">
+							<span class="treefy-flick"></span>
+							<label for="nosql" class="treefy-unchecked"></label>
+							<input id="nosql" type="checkbox" />
+							<span class="treefy-folder"></span>
+							<a href="javascript:void(0);">NoSQL</a>
+						</span>
+
+						<ul>
+							<li>
+								<span>
+									<span class="treefy-empty"></span>
+									<label for="mongodb" class="treefy-unchecked"></label>
+									<input id="mongodb" type="checkbox" />
+									<span class="treefy-file"></span>
+									<a href="javascript:void(0);">MongoDB</a>
+								</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="source">
+				$('#tree').treefy();<br /><br />
+
+				&lt;div id="tree"&gt;<br />
+				&#160;&#160;&#160;&lt;ul class="treefy"&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&lt;li&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span class="treefy-empty"&gt;&lt;/span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;label for="ruby" class="treefy-unchecked"&gt;&lt;/label&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;input id="ruby" type="checkbox" /&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span class="treefy-star"&gt;&lt;/span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;a href="javascript:void(0);"&gt;Ruby&lt;/a&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&lt;/li&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&lt;li&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span class="treefy-closed"&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span class="treefy-flick"&gt;&lt;/span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;label for="nosql" class="treefy-unchecked"&gt;&lt;/label&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;input id="nosql" type="checkbox" /&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span class="treefy-folder"&gt;&lt;/span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;a href="javascript:void(0);"&gt;NoSQL&lt;/a&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/span&gt;<br /><br />
+				
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ul&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;li&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span class="treefy-empty"&gt;&lt;/span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;label for="mongodb" class="treefy-unchecked"&gt;&lt;/label&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;input id="mongodb" type="checkbox" /&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;span class="treefy-file"&gt;&lt;/span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;a href="javascript:void(0);"&gt;MongoDB&lt;/a&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/span&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/li&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/ul&gt;<br />
+				&#160;&#160;&#160;&#160;&#160;&#160;&lt;/li&gt;<br />
+				&#160;&#160;&#160;&lt;/ul&gt;<br />
+				&lt;/div&gt;<br />
+			</div>
+
+			<span class="comment">
+				- If you want build manually, then you must follow the structure convention.<br />
+				- Each 'li' is an element on the tree.<br />
+				- The span inside li keep the information as expand/collapse icon, checkbox, icon and text of the item.<br />
+				- If the item is a 'folder', then it has a 'flick' span and the states closed or opened declared on the main span.<br />
+				- For no folder items, it is considered 'file' and has a 'empty' element instead a flick.<br />
+				- The last item is a link with the text of the element.<br />
+				- If the item has children, then it will be inside a &lt;ul/&gt; after the span.<br />
+			</span>
+
+			<div id="global-demo" class="session">Changing the settings globally:</div>
+
+			<div class="source">
+				$.fn.catchy.defaults.checkbox = true;<br/>
+				$.fn.catchy.defaults.icon = false;
+			</div>
+
+			<span class="comment">
+				- You can change any option mention the scope <b>$.fn.treefy.defaults.</b> + <i>option_name</i>;<br/>
+				- This setup must be called before you bind the Treefy, of course.
+			</span>
+
+			<div id="function-demo" class="session">Public functions:</div>
+
+			<div id="function"></div>
+
+			<div class="action-wrapper">
+				ID: <input id="check-id" type="text" value="ruby" class="action-field" />
+				<a id="check-action" href="javascript:void(0);" title="check" class="action-link">check</a>
+				<a id="uncheck-action" href="javascript:void(0);" title="uncheck" class="action-link">uncheck</a>
+			</div>
+
+			<div class="action-wrapper">
+				ID: <input id="enable-id" type="text" value="ruby" class="action-field" />
+				<a id="enable-action" href="javascript:void(0);" title="enable" class="action-link">enable</a>
+				<a id="disable-action" href="javascript:void(0);" title="disable" class="action-link">disable</a>
+			</div>
+
+			<div class="source">$('#ruby').treefy('check', true);</div>
+			<div class="description-code">Check or uncheck the checkbox.</div>
+
+			<div class="source">$('#java').treefy('enable', false);</div>
+			<div class="description-code">Disable or enable the checkbox.</div>
+		</div>
+
+		<div id="footer">
+			<div>&copy; 2012 <a href="http://www.wbotelhos.com/" target="_blank">wbotelhos.com</a></div>
+		</div>
+
+		<script type="text/javascript">
+			$(function() {
+
+				var json = '{ "tree": [ { "text": "Ruby", "icon": "star", "checkbox": { "id": "ruby", "name": "languages[]", "value": "1" } }, { "text": "Java", "checkbox": { "id": "java", "name": "language[]", "value": "2", "link": "http://wbotelhos.com.br", "target": "_blank" } }, { "text": "NoSQL", "state": "opened", "checkbox": { "id": "nosql", "name": "language[]", "value": "3" }, "children": [ { "text": "Neo4j", "checkbox": { "id": "neo4j", "name": "language[]", "value": "4" } }, { "text": "Document", "checkbox": { "id": "document", "name": "language[]", "value": "5" }, "children": [ { "text": "MongoDB", "checkbox": { "id": "mongodb", "name": "language[]", "value": "6", "checked": true } }, { "text": "CouchDB", "checkbox": { "id": "couchdb", "name": "language[]", "value": "7" } } ]}, { "text": "Relational", "checkbox": { "id": "relational", "name": "language[]", "value": "8", "disabled": true } } ]} ] }';
+
+				$('#tree').treefy({
+					checkbox	: true,
+					dataType	: 'jsonp',
+					url			: 'http://mockr.me/treefy'
+				});
+
+				$('#checkDown').treefy({
+					checkbox	: true,
+					checkDown	: false,
+					data		: json
+				});
+
+				$('#checkUp').treefy({
+					checkbox	: true,
+					checkUp		: false,
+					data		: json
+				});
+
+				$('#data').treefy({
+					checkbox	: true,
+					checkUp		: false,
+					data		: '{ "tree": [ { "text": "Java" }, { "text": "Ruby" } ] }'
+				});
+
+				$('#partial').treefy({
+					checkbox	: true,
+					data		: json,
+					partial		: false
+				});
+
+				$('#uncheckDown').treefy({
+					checkbox	: true,
+					data		: json,
+					uncheckDown	: false
+				});
+
+				$('#uncheckUp').treefy({
+					checkbox	: true,
+					data		: json,
+					uncheckUp	: false
+				});
+
+				$('#manual').treefy({
+					checkbox: true
+				});
+
+				$('#function').treefy({
+					checkbox	: true,
+					data		: json
+				});
+
+				$('#check-action').on('click', function() {
+					var id = $('#check-id').val();
+
+					$('#function').find('#' + id).treefy('check', true);
+				});
+
+				$('#uncheck-action').on('click', function() {
+					var id = $('#check-id').val();
+
+					$('#function').find('#' + id).treefy('check', false);
+				});
+
+				$('#enable-action').on('click', function() {
+					var id = $('#enable-id').val();
+
+					$('#function').find('#' + id).treefy('enable', true);
+				});
+
+				$('#disable-action').on('click', function() {
+					var id = $('#enable-id').val();
+
+					$('#function').find('#' + id).treefy('enable', false);
+				});
+
+			});
+		</script>
+	</body>
+</html>

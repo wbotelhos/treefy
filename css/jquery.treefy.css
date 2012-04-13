@@ -1,0 +1,31 @@
+@CHARSET "UTF-8";
+
+.treefy { margin: 0; padding: 0; }
+.treefy ul { margin: 0; padding-left: 21px; }
+.treefy li { background-repeat: repeat-y; background-position: 0 0; list-style-image: none; list-style-position: outside; list-style-type: none; padding-top: 5px; }
+.treefy li a { color: #2C8CBD; font: normal 12px verdana; text-decoration: none; }
+.treefy li a:hover { color: #48A5D4; }
+.treefy li > span a { margin-left: 3px; vertical-align: top; }
+.treefy li > span span.treefy-text  { display: inline-block; font: 12px verdana; margin-left: 3px; vertical-align: top; }
+
+.treefy-checkbox { height: 16px; margin-right: 3px; width: 16px; }
+.treefy-checkbox label { cursor: pointer; display: inline-block; height: 15px; width: 15px; }
+
+.treefy-checked	{ background: url('../img/checked.png') no-repeat; }
+
+.treefy-disabled  { background: url('../img/unchecked.png') no-repeat; }
+.treefy-disabled-checked { background: url('../img/checked.png') no-repeat; }
+
+.treefy-empty { display: inline-block; height: 16px; width: 16px; }
+
+.treefy-flick { background: url('../img/icons.png') -16px -129px no-repeat; cursor: pointer; display: inline-block; height : 15px; width: 16px; height: 15px; }
+.treefy-folder { background: url('../img/closed.png') no-repeat; display: inline-block; height: 15px; margin-left: 2px; margin-right: 3px; width: 16px; }
+
+.treefy-last { background-image: none !important; }
+
+.treefy-opened .treefy-flick { background: url('../img/icons.png') -48px -129px no-repeat; }
+.treefy-opened .treefy-folder { background: url('../img/opened.png') no-repeat; }
+
+.treefy-partial { background: url('../img/partial.png') no-repeat; }
+
+.treefy-unchecked { background: url('../img/unchecked.png') no-repeat; }

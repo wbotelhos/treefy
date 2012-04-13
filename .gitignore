@@ -1,0 +1,16 @@
+build
+classes
+dist
+target
+WebContent/WEB-INF/classes
+
+doc.txt
+test/runner.htm
+
+.DS_Store
+.project
+.settings/
+
+*.class
+*.zip
+*.war
