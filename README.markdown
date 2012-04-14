@@ -64,14 +64,14 @@ jQuery Treefy is a plugin that transforms an unordered list into an expandable a
 				<span>
 					<span class="treefy-empty"></span>
 					<span class="treefy-file"></span>
-					<a href="javascript:void(0);">Ruby</a>
+					<span class="treefy-text">Ruby</span>
 				</span>
 			</li>
 			<li>
 				<span class="treefy-closed">
 					<span class="treefy-flick"></span>
 					<span class="treefy-folder"></span>
-					<a href="#">NoSQL</a>
+					<span class="treefy-text">NoSQL</span>
 				</span>
 
 				<ul>
